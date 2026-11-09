@@ -1,0 +1,206 @@
+@import "tailwindcss";
+
+@theme {
+  --color-abyss-950: #02050a;
+  --color-abyss-900: #050b14;
+  --color-abyss-850: #0a1626;
+  --color-abyss-800: #0e1d31;
+  --color-abyss-700: #16293f;
+  --color-current-700: #17385a;
+  --color-current-600: #24598a;
+  --color-current-500: #2b6a9a;
+  --color-current-300: #7fb2d1;
+  --color-foam-50: #f2f7fb;
+  --color-foam-300: #a9bbcb;
+  --color-foam-500: #8ca0b3;
+  --color-biolum-400: #58c4d6;
+  --color-biolum-glow: #0f7a87;
+  --color-ok: #4cc38a;
+  --color-warn: #e0a84a;
+  --color-bad: #f0706e;
+  --color-info: #6fb1f0;
+
+  --font-sans: "Segoe UI Variable Text", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+
+  --radius-ctl: 8px;     /* botões, inputs, itens de menu */
+  --radius-tag: 6px;     /* selos e pílulas de estado */
+  --radius-card: 12px;   /* cards e tabelas */
+  --radius-glass: 14px;  /* sidebar, topbar, modais, painel lateral */
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-foam-50);
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #0b1d33 0%, #050b14 50%, #02050a 100%) fixed;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Material vidro submerso */
+@utility glass {
+  position: relative;
+  border-radius: var(--radius-glass);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / .11), rgb(255 255 255 / .04)),
+    rgb(70 150 200 / .09);
+  backdrop-filter: blur(36px) saturate(180%);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / .5),
+    0 30px 70px rgb(0 0 0 / .55),
+    inset 0 1px 0 rgb(255 255 255 / .2),
+    inset 0 -1px 0 rgb(0 0 0 / .35);
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgb(255 255 255 / .55), rgb(255 255 255 / .05) 60%, rgb(255 255 255 / .2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.glass::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 46%;
+  height: 34%;
+  pointer-events: none;
+  border-radius: 10px 70% 40% 70%;
+  background: radial-gradient(120% 120% at 0 0, rgb(255 255 255 / .16), transparent 60%);
+  opacity: .7;
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass {
+    background: #0e1d31;
+  }
+}
+
+/* Superfície de dados (opaca para legibilidade) */
+@utility surface {
+  position: relative;
+  background: rgba(8, 19, 33, 0.92);
+  border: 1px solid #1b2e44;
+  border-radius: var(--radius-card);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Assinatura visual de cantos bioluminescentes */
+.corner-accent {
+  position: relative;
+}
+.corner-accent::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-top: 1.5px solid var(--color-biolum-400);
+  border-left: 1.5px solid var(--color-biolum-400);
+  border-top-left-radius: var(--radius-card);
+  pointer-events: none;
+  z-index: 2;
+}
+.corner-accent::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-bottom: 1.5px solid var(--color-biolum-400);
+  border-right: 1.5px solid var(--color-biolum-400);
+  border-bottom-right-radius: var(--radius-card);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Máscara da marca */
+.mark {
+  background: currentColor;
+  aspect-ratio: 257 / 440;
+  -webkit-mask: url("/src/assets/brand/ryujin-mark.png") center / contain no-repeat;
+          mask: url("/src/assets/brand/ryujin-mark.png") center / contain no-repeat;
+}
+
+/* Foco de teclado padrão */
+:focus-visible {
+  outline: 2px solid var(--color-biolum-400);
+  outline-offset: 2px;
+}
+
+/* Barra de rolagem Windows fina (10px) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(169, 187, 203, 0.2);
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(169, 187, 203, 0.35);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Animações oceânicas */
+@keyframes marine-snow {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-520px); }
+}
+.animate-marine-snow {
+  animation: marine-snow 90s linear infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.92); }
+}
+.animate-pulse-green {
+  animation: pulse-green 2.6s ease-in-out infinite;
+}
+
+/* Acessibilidade: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Acessibilidade: alto contraste Windows */
+@media (forced-colors: active) {
+  .glass, .surface {
+    border: 1px solid ButtonText !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+  }
+}
+
