@@ -1,5 +1,22 @@
 # RyujinDofus
 
+## Contas Ankama e personagens
+
+O Desktop possui cadastros separados para emails, contas Ankama e personagens.
+Cada email pode pertencer a uma conta; uma conta pode possuir vários personagens.
+Banir a conta também bane seus personagens. Reverter a conta não restaura os
+status anteriores dos personagens.
+
+A API usa o prefixo `/api`. Configure `OPERATOR_TOKEN`, `CREDENTIALS_KEY` (32 bytes
+em base64) e, para integração restrita, `ANKABOT_TOKEN` distinto. Consulte
+[o contrato AnkaBot](docs/ANKABOT.md), [a configuração da API](api/README.md) e
+[o plano](docs/superpowers/plans/2026-11-05-ankama-characters.md).
+
+As operações de criação são persistidas na API e executadas por um worker local,
+desativado por padrão. Configuração e limitações estão em
+[automação local](automation/README.md). Testes automatizados não demonstram
+compatibilidade com a versão atual do jogo; a validação real é separada.
+
 API em TypeScript, Fastify e PostgreSQL, com Node.js 24 LTS.
 
 ## Executar localmente
@@ -19,9 +36,10 @@ execute `npm start`.
 | `GET /health` | HTTP 200 e `{"status":"ok"}` enquanto o servidor responde |
 | `GET /ready` | Executa `SELECT 1`, retorna HTTP 200 e `{"status":"ok"}` ou HTTP 503 e `{"status":"unavailable"}` |
 
-A verificação de prontidão tem prazo total de cinco segundos. As conexões e
-consultas também possuem limites de cinco segundos. Consultas pendentes após o
-prazo HTTP terminam sob esses limites. O pool mantém no máximo cinco conexões.
+A verificação de prontidão tem prazo total de cinco segundos. A conexão tem limite
+de cinco segundos; consultas PostgreSQL têm limite de 30 segundos, com timeout do
+cliente de 35 segundos, permitindo espera transacional por capacidade de licença.
+O pool mantém no máximo cinco conexões.
 `SIGTERM` e `SIGINT` encerram o servidor e o pool de conexões.
 
 ## Publicação no Render
