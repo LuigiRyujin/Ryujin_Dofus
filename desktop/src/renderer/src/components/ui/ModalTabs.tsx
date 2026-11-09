@@ -63,3 +63,4 @@ export const ModalTabs: React.FC<ModalTabsProps> = ({
     </div>
   );
 };
+

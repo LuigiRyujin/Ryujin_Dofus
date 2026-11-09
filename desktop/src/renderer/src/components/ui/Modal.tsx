@@ -52,7 +52,6 @@ export const Modal: React.FC<ModalProps> = ({
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      aria-hidden="true"
     >
       <div
         ref={modalRef}
